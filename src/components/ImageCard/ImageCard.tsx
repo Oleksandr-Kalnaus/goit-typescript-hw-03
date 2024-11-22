@@ -6,11 +6,10 @@ const ImageCard: React.FC<ImageCardProps> = ({
   onImageClick,
   cardRef,
 }) => {
-  const { smallImage, regularImage, description, likes, dateOfCreate } =
-    imageCard;
+  const { smallImage, description } = imageCard;
 
   const handleClick = () => {
-    onImageClick({ regularImage, description, likes, dateOfCreate });
+    onImageClick(imageCard);
   };
 
   return (

@@ -27,19 +27,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
     };
   }, [onClose]);
 
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
       className={css.modal}
       overlayClassName={css.overlay}
-      onClick={handleOverlayClick}
     >
       <div className={css.content}>
         <img src={imageUrl} alt={altText} className={css.image} />
