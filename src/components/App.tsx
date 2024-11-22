@@ -6,21 +6,21 @@ import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import ImageModal from "./ImageModal/ImageModal";
 import apiRequests from "../utils/apiRequests";
-
+import { ImageData } from "../types/types";
 import "modern-normalize";
 
 export default function App() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [totalImages, setTotalImages] = useState(0);
-  const imageCardRef = useRef(null);
+  const imageCardRef = useRef<HTMLDivElement>(null);
 
-  const onSubmit = (searchQuery) => {
+  const onSubmit = (searchQuery: string) => {
     if (searchQuery === query) return;
     setQuery(searchQuery);
     setPage(1);
@@ -45,7 +45,11 @@ export default function App() {
         setImages((prevImages) => [...prevImages, ...fetchedImages]);
         setTotalImages(total);
       } catch (err) {
-        setError(`Failed to fetch images. Error: ${err.message}`);
+        if (err instanceof Error) {
+          setError(`Failed to fetch images. Error: ${err.message}`);
+        } else {
+          setError("An unknown error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -71,7 +75,7 @@ export default function App() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const openModal = (imageData) => {
+  const openModal = (imageData: ImageData) => {
     setSelectedImage(imageData);
     setIsModalOpen(true);
   };
